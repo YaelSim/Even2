@@ -6,16 +6,26 @@
 #define EVEN2_MYSERIALSERVER_H
 
 #include <thread>
+#include <cstdio>
+#include <cstdlib>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <mutex>
 #include <unistd.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <cstring>
+#include <sys/socket.h>
 #include "Server.h"
+#include <iostream>
 
 extern bool isThreadDone;
+extern bool doneAcceptingClients;
+using namespace std;
 
-void openServer(int portToListen);
+void openServer(int portToListen, ClientHandler* clientHandler);
 
 class MySerialServer: public server_side::Server {
 
