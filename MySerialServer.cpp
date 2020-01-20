@@ -2,14 +2,13 @@
 // Created by linoy on 12/01/2020.
 //
 
-#include <condition_variable>
 #include "MySerialServer.h"
 bool doneAcceptingClients = false;
 
 void MySerialServer::open(int port, ClientHandler *clientHandler) {
     std::thread openServerThread(openServer, port, clientHandler);
     openServerThread.detach();
-    while (!doneAcceptingClients) { // check when convert to true***************
+    while (!doneAcceptingClients) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     if (doneAcceptingClients) {
@@ -22,8 +21,9 @@ void MySerialServer::stop() {
 }
 
 void openServer(int port, ClientHandler* clientHandler) {
-    int timeout_in_seconds = 120, option = 1;
+    int timeout_in_seconds = 120, option = 1, clientSocket, addrlen;
     struct sockaddr_in sockAddress;
+    //socklen_t addrlen = sizeof(sockaddr_in);
     //Creation of socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
@@ -33,7 +33,6 @@ void openServer(int port, ClientHandler* clientHandler) {
     if (setsockopt(socketfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &option, sizeof(option))) {
         exit(-8);
     }
-    bzero((char *) &sockAddress, sizeof(sockAddress)); //Initialize
     sockAddress.sin_family = AF_INET;
     sockAddress.sin_addr.s_addr = INADDR_ANY;
     sockAddress.sin_port = htons(port);
@@ -41,18 +40,21 @@ void openServer(int port, ClientHandler* clientHandler) {
         exit(-2);
     }
 
+    //Listening for clients!
+    if (listen(socketfd, 1) < 0) {
+        exit(-3);
+    }
+    addrlen = sizeof(sockAddress);
+
     while(!doneAcceptingClients) {
-        //Listening for clients!
-        if (listen(socketfd, 3) < 0) {
-            exit(-3);
-        }
         //Defining a time out
         struct timeval tv;
         tv.tv_sec = timeout_in_seconds;
-        setsockopt(socketfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
+        setsockopt(socketfd, SOL_SOCKET, SO_RCVTIMEO, (const char*) &tv, sizeof(tv));
 
         //Accepting a client.
-        int clientSocket = accept(socketfd, (struct sockaddr *) &sockAddress, (socklen_t*) &sockAddress);
+//        int clientSocket = -1;
+        clientSocket = accept(socketfd, (struct sockaddr *) &sockAddress, (socklen_t*) &addrlen);
         if (clientSocket < 0) {
             //Did a timeout happen?
             if (errno == EWOULDBLOCK) {
@@ -63,9 +65,10 @@ void openServer(int port, ClientHandler* clientHandler) {
                 exit(-4);
             }
         }
-        clientHandler->handleClient(socketfd);
+        clientHandler->handleClient(clientSocket);
 
         close(clientSocket);
+
     }
 
     close(socketfd);

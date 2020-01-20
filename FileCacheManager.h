@@ -7,12 +7,19 @@
 
 #include "CacheManager.h"
 
-class FileCacheManager: public CacheManager {
+
+using namespace std;
+
+class FileCacheManager: public CacheManager<string, string> {
+private:
+    unordered_map<string,string> cacheMap;
+    void updateCacheMapFromFiles(string problem);
+    string getCurrentFileName(const string& problem);
 public:
     FileCacheManager() = default;
-    bool doesASolutionExist() override ; //parameter - Problem problem
-    // Solution getSolution() override;
-    void saveSolution() override ;
+    bool doesASolutionExist(string problem) override ;
+    string getSolution(string problem) override;
+    void saveSolution(string problem, string solution) override ;
 };
 
 #endif //EVEN2_FILECACHEMANAGER_H

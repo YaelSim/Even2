@@ -7,14 +7,16 @@
 
 #include "FileCacheManager.h"
 #include "MySerialServer.h"
+#include "MyTestClientHandler.h"
 
 namespace boot {
     class Main {
     public:
         int main(int port) {
-            Solver* solver = new StringReverser();
-            CacheManager* cacheManager = new FileCacheManager();
+            ClientHandler* clientHandler = new MyTestClientHandler;
             server_side::Server* server = new MySerialServer;
+            server->open(port, clientHandler);
+            return 0;
         }
     };
 }

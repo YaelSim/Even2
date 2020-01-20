@@ -28,8 +28,6 @@ using namespace std;
 void openServer(int portToListen, ClientHandler* clientHandler);
 
 class MySerialServer: public server_side::Server {
-
-    //Think if more methods/functions are needed. *************
 public:
     MySerialServer() = default;
     void open(int port, ClientHandler* clientHandler) override;

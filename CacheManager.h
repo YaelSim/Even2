@@ -5,11 +5,18 @@
 #ifndef EVEN2_CACHEMANAGER_H
 #define EVEN2_CACHEMANAGER_H
 
+#include <string>
+#include <unordered_map>
+#include <fstream>
+#include <functional>
+
+template <class Problem, class Solution>
 class CacheManager {
-private:
-    virtual bool doesASolutionExist() = 0; //parameter - Problem problem
-    // virtual Solution getSolution() = 0;
-    virtual void saveSolution() = 0;
+public:
+    CacheManager() = default;
+    virtual bool doesASolutionExist(Problem problem) = 0;
+    virtual Solution getSolution(Problem problem) = 0;
+    virtual void saveSolution(Problem problem, Solution solution) = 0; //According to the type of our cache.
 };
 
 #endif //EVEN2_CACHEMANAGER_H

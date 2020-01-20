@@ -5,6 +5,12 @@
 #include "MyTestClientHandler.h"
 
 bool isEndOfRead = false;
+std::mutex progMutex;
+
+MyTestClientHandler::MyTestClientHandler() {
+    this->cacheManager = new FileCacheManager();
+    this->solver = new StringReverser();
+}
 
 void MyTestClientHandler::handleClient(int socket_fd) {
     int index;
@@ -19,31 +25,33 @@ void MyTestClientHandler::handleClient(int socket_fd) {
             index++;
             val_read = read(socket_fd, buffer, 1);
         }
-        vector<string> splitBufferVec = splitBuffer(totalBuffer, ',');
-        // send to solver
-    }
-}
-
-//This static method receives an array and divides its content into a new Vector<string> (and returns it accordingly).
-vector<string> splitBuffer(char buffer[1024], char comma) {
-    vector<string> vec;
-    size_t start;
-    string word;
-    //Convert char[] buffer to string bufferAsString
-    string bufferAsString;
-    stringstream stringstream;
-    stringstream << buffer;
-    stringstream >> bufferAsString;
-    size_t end = 0;
-    //push the value that was found to the vector
-    while ((start = bufferAsString.find_first_not_of(comma, end)) != std::string::npos) {
-        end = bufferAsString.find(comma, start);
-        word = bufferAsString.substr(start, end - start);
-        if(word == "end") {
+        //check if the total line (receieved from totalBuffer) contains "end"
+        string problem, solution;
+        for (int i = 0; i < 1024; i++) {
+            if (totalBuffer[i] != '\000') {
+                problem += totalBuffer[i];
+            }
+        }
+        if (problem.find("end") != std::string::npos) {
             isEndOfRead = true;
             continue;
+        } else {
+            //CHECK WHERE WE NEED TO PUT MUTEX
+            bool isExist = this->cacheManager->doesASolutionExist(problem);
+            if(isExist) {
+                solution = this->cacheManager->getSolution(problem);
+            } else {
+                solution = this->solver->solve(problem);
+                this->cacheManager->saveSolution(problem, solution);
+            }
+            solution += "\r\n";
+            const char* solutionToClient = solution.c_str();
+            int is_sent = send(socket_fd, solutionToClient, strlen(solutionToClient), 0);
+            if (is_sent < 0) {
+                cout<<"Failed Sending Solution To Client!"<<endl;
+            }
+            //Check what is the issue with the broken pipe.*******************************
         }
-        vec.push_back(word);
     }
-    return vec;
+    isEndOfRead = false;
 }

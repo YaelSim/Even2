@@ -1,9 +1,9 @@
 //
-// Created by linoy on 12/01/2020.
+// Created by yael on 16/01/2020.
 //
 
-#ifndef EVEN2_MYTESTCLIENTHANDLER_H
-#define EVEN2_MYTESTCLIENTHANDLER_H
+#ifndef EVEN2_MYCLIENTHANDLER_H
+#define EVEN2_MYCLIENTHANDLER_H
 
 #include <thread>
 #include <cstdio>
@@ -22,19 +22,20 @@
 #include <vector>
 #include <iostream>
 #include "ClientHandler.h"
-#include "StringReverser.h"
+#include "Matrix.h"
+#include "Solver.h"
 #include "FileCacheManager.h"
 
 extern bool isEndOfRead;
 
-class MyTestClientHandler: public ClientHandler {
+class MyClientHandler: public ClientHandler {
 private:
-    Solver<string, string>* solver;
+    Solver<std::vector<string>, string>* solver;
     CacheManager<string, string>* cacheManager;
-    bool isItSearchCoordinate(char* buffer);
 public:
     void handleClient(int socket_fd) override ;
-    MyTestClientHandler();
+    MyClientHandler();
 };
 
-#endif //EVEN2_MYTESTCLIENTHANDLER_H
+
+#endif //EVEN2_MYCLIENTHANDLER_H

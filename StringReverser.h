@@ -7,7 +7,7 @@
 
 #include "Solver.h"
 
-class StringReverser: public Solver {
+class StringReverser: public Solver <string, string> {
 public:
     StringReverser() = default;
     string solve(string problem) override;
