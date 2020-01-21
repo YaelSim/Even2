@@ -15,6 +15,8 @@ private:
     double subCost;
     State* fatherVertex;
     bool isVisited;
+    int xPosition;
+    int yPosition;
 public:
     State(T indexOfVertex, double valOfVertex) {
         this->vertexIndex =  indexOfVertex;
@@ -22,6 +24,8 @@ public:
         this->subCost = valOfVertex;
         this->fatherVertex = nullptr;
         isVisited = false;
+        this->xPosition = -1;
+        this->yPosition = -1;
     }
 
     State* getFatherVertex() {
@@ -65,6 +69,23 @@ public:
             }
         }
         return false;
+    }
+
+    int getX() {
+        //T vertex = this->vertexIndex;
+        //this->xPosition = stoi(vertex.substr(0, vertex.find(',')));
+        return this->xPosition;
+    }
+
+    int getY() {
+        //T vertex = this->vertexIndex;
+        //this->yPosition = stoi(vertex.substr(vertex.find(',') + 1));
+        return this->yPosition;
+    }
+
+    void setXAndYPositions(int x, int y) {
+        this->xPosition = x;
+        this->yPosition = y;
     }
 };
 

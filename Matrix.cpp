@@ -87,7 +87,14 @@ unordered_map<string, State<string> *> Matrix::buildMatrix(vector<string> matVec
             while (indexArr != array.end()) {
                 string currKey = to_string(this->numOfRows) + "," + to_string(currentCol);
                 string currValue = *indexArr;
-                matMap[currKey] = new State<string>(currKey, stod(currValue));
+                //matMap[currKey] = new State<string>(currKey, stod(currValue));
+
+                //******************
+                State<string>* tempState = new State<string>(currKey, stod(currValue));
+                tempState->setXAndYPositions(this->numOfRows, currentCol);
+                matMap[currKey] = tempState;
+                //******************
+
                 currentCol++;
                 indexArr++;
             }
