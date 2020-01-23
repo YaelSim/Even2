@@ -51,9 +51,12 @@ public:
      */
     string getSolutionString(vector<State<Problem>*> solutionVec) {
         string output;
+        int currCost = 0;
         for(int i = 0; (i < (solutionVec.size() - 1)); i++) {
             State<Problem>* currState = solutionVec.at(i);
+            currCost += currState->getVertexValue();
             State<Problem>* nextState = solutionVec.at(i + 1);
+            currCost += nextState->getVertexValue();
             //Add '{' first
             if (i == 0) {
                 output += "{";
@@ -78,8 +81,12 @@ public:
                 }
             }
             if (i != (solutionVec.size() - 2)) {
-                output += ", ";
+                output += "(";
+                output += to_string(currCost);
+                output += "), ";
             } else {
+                output += "(";
+                output += to_string(currCost);
                 output += "}\r\n";
             }
         }

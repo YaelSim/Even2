@@ -9,7 +9,7 @@
 #include "ObjectAdapter.h"
 
 int main(int argc, char** argv) {
-    /*vector<string> vec;
+    vector<string> vec;
     vec.push_back("1,2,3,4,5");
     vec.push_back("6,7,-1,9,10");
     vec.push_back("9,10,13,-1,15");
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     Searcher<string>* s = new AStar<string>();
     ObjectAdapter<string, string>* oa = new ObjectAdapter<string, string>();
     oa->setSearcher(s);
-    string solution = oa->solve(dilimProblem);*/
+    string solution = oa->solve(dilimProblem);
 
 
     int portAsInt = stoi(argv[1]);
