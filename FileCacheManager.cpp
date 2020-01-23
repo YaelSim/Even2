@@ -77,8 +77,6 @@ void FileCacheManager::updateCacheMapFromFiles(string problem) {
             }
         }
         file.close();
-    } else {
-        perror("failed in open file");
     }
 }
 
@@ -86,6 +84,9 @@ string FileCacheManager::getCurrentFileName(const string& problem) {
     string finalFileName;
     std::size_t name = std::hash<string>{}(problem);
     finalFileName = to_string(name);
+
+    //append to fileName the name of the current algorithm.
+    finalFileName.append(this->nameOfSearchAlg);
     finalFileName.append(".txt");
     return finalFileName;
 }

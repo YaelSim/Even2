@@ -37,6 +37,7 @@ void MyTestClientHandler::handleClient(int socket_fd) {
             continue;
         } else {
             //CHECK WHERE WE NEED TO PUT MUTEX
+            this->cacheManager->setAlg(this->solver->getNameOfCurrAlg());
             bool isExist = this->cacheManager->doesASolutionExist(problem);
             if(isExist) {
                 solution = this->cacheManager->getSolution(problem);

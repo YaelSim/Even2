@@ -18,6 +18,10 @@ class AStar: public Searcher<T> {
 public:
     AStar() = default;
 
+    string getNameOfSearcher() override {
+        return "AStar";
+    }
+
     struct StateBehavior {
         State<T>* state;
         double f = 0;

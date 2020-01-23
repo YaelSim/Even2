@@ -4,15 +4,14 @@
 
 
 #include "MyClientHandler.h"
-#include "Searchable.h"
 
 MyClientHandler::MyClientHandler() {
     this->cacheManager = new FileCacheManager();
+    this->solver = new ObjectAdapter<string, string>();
 }
 
 void MyClientHandler::handleClient(int socket_fd) {
     int index, startFlag = 0;
-    //CacheManager<string,string>* fileCacheManager = this->cacheManager;
     vector<string> matrixVec;
     //reading from client as long as the parser function didn't end its' work
     while (!isEndOfRead) {
@@ -41,7 +40,6 @@ void MyClientHandler::handleClient(int socket_fd) {
     }
     if (isEndOfRead) {
         //Solve!!!!!
-        Searchable<string>* matrix = new Matrix(matrixVec);
         // convert the vector to a problem string to find in the CacheManager
         auto i = matrixVec.begin();
         string problem, solution;
@@ -51,11 +49,20 @@ void MyClientHandler::handleClient(int socket_fd) {
             i++;
         }
         //CHECK WHERE WE NEED TO PUT MUTEX
+        //Update the name of this current search algorithm
+        this->cacheManager->setAlg(this->solver->getNameOfCurrAlg());
         bool isExist = this->cacheManager->doesASolutionExist(problem);
         if(isExist) {
             solution = this->cacheManager->getSolution(problem);
         } else {
-            solution = this->solver->solve(matrixVec);
+            i = matrixVec.begin();
+            string dilimProblem;
+            while(i != matrixVec.end()) {
+                dilimProblem += *i;
+                dilimProblem += ";";
+                i++;
+            }
+            solution = this->solver->solve(dilimProblem);
             this->cacheManager->saveSolution(problem, solution);
         }
         //BEFORE SENDING THE SOLUTION TO THE CLIENT, DONT FORGET TO ADD \r\n

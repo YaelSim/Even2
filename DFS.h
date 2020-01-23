@@ -12,6 +12,11 @@ template <class T>
 class DFS: public Searcher<T> {
 public:
     DFS() = default;
+
+    string getNameOfSearcher() override {
+        return "DFS";
+    }
+
     vector<State<T>*> search(Searchable<T>* searchable) override {
         vector<State<T>*> stateVec, adjVec;
         stack<State<T>*> dfsStack;

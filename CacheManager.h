@@ -10,12 +10,19 @@
 #include <fstream>
 #include <functional>
 
+using namespace std;
+
 template <class Problem, class Solution>
 class CacheManager {
+protected:
+    string nameOfSearchAlg;
 public:
     CacheManager() = default;
     virtual bool doesASolutionExist(Problem problem) = 0;
     virtual Solution getSolution(Problem problem) = 0;
+    void setAlg(string name) {
+        this->nameOfSearchAlg = name;
+    }
     virtual void saveSolution(Problem problem, Solution solution) = 0; //According to the type of our cache.
 };
 

@@ -11,6 +11,7 @@ class StringReverser: public Solver <string, string> {
 public:
     StringReverser() = default;
     string solve(string problem) override;
+    string getNameOfCurrAlg() override;
 };
 
 #endif //EVEN2_STRINGREVERSER_H

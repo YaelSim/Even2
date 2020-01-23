@@ -13,6 +13,7 @@ class Solver {
 public:
     Solver() = default;
     virtual Solution solve(Problem problem) = 0;
+    virtual string getNameOfCurrAlg() = 0;
 };
 
 #endif //EVEN2_SOLVER_H

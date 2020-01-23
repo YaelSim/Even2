@@ -12,6 +12,10 @@ class BFS: public Searcher<T> {
 public:
     BFS() = default;
 
+    string getNameOfSearcher() override {
+        return "BFS";
+    }
+
     vector<State<T>*> search(Searchable<T>* searchable) override {
         vector<State<T>*> stateVec, adjVec;
         queue<State<T>*> bfsQueue;

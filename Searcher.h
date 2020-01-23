@@ -19,6 +19,7 @@ protected:
     double totalCost = 0;
 public:
     virtual vector<State<T>*> search(Searchable<T>* searchable) = 0;
+    virtual string getNameOfSearcher() = 0;
 };
 
 #endif //EVEN2_SEARCHER_H

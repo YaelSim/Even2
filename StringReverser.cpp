@@ -14,3 +14,7 @@ string StringReverser::solve(string problem) {
     return tempProblem;
 }
 
+string StringReverser::getNameOfCurrAlg() {
+    return "StringReverser";
+}
+

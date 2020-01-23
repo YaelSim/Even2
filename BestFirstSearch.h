@@ -17,30 +17,42 @@ template <class T>
 class BestFirstSearch: public Searcher<T> {
 public:
     BestFirstSearch() = default;
+
+
+    string getNameOfSearcher() override {
+        return "BestFirstSearch";
+    }
+
     vector<State<T> *> search(Searchable<T> *searchable) override {
         vector<State<T>*> stateVec; //traceBack will "remember" our way back with our father vertices.
         unordered_set<State<T>*> closed;
-        int foundInOpen = 0;
+        int foundInOpen, foundInClose;
         list<State<T>*> openList;
         State<T>* currState = searchable->getInitialState();
         openList.push_back(currState);
 
         while (!openList.empty()) {
-            this->countVisitedVertexes++;
-            State<T>* n = openList.front(); //The best state!
+            State<T>* n = theSmallestInList(openList); //The best state!
             //mark as visited
             n->setIsVisited(true);
+
+            State<T>* checkIfQInFront = openList.front();
+            while (!(checkIfQInFront->isEqual(n))) {
+                openList.push_back(checkIfQInFront);
+                openList.pop_front();
+                checkIfQInFront = openList.front();
+            }
             openList.pop_front();
             //Add the popped n to the closed set
             closed.insert(n);
 
             if (n->isEqual(searchable->getGoalState())) {
-                stateVec.push_back(n);
                 while (!n->isEqual(searchable->getInitialState())) {
                     stateVec.push_back(n);
                     this->totalCost += n->getVertexValue();
                     n = n->getFatherVertex();
                 }
+                stateVec.push_back(n);
                 this->totalCost += n->getVertexValue();
                 vector<State<T>*> traceBack;
                 auto i = stateVec.rbegin();
@@ -48,12 +60,15 @@ public:
                     State<T>*& curr = *i;
                     traceBack.push_back((*i));
                 }
+                this->countVisitedVertexes = traceBack.size();
                 return traceBack;
             }
 
             vector<State<T>*> adjVec = searchable->getAllPossibleStates(n);
             for (State<T>* currAdj : adjVec) {
-                //if currAdj is not in closed and not in openList
+                foundInOpen = 0;
+                foundInClose = 0;
+                //check if exist in openList
                 auto i = openList.begin();
                 for (; i != openList.end(); i++) {
                     State<T>*& currInOpen = *i;
@@ -62,8 +77,12 @@ public:
                         foundInOpen = 1;
                     }
                 }
+                //check if exist in closedList
+                if (closed.find(currAdj) != closed.end()) {
+                    foundInClose = 1;
+                }
                 //not in closed AND not in open
-                if ((foundInOpen == 0) && (closed.find(n) != closed.end())) {
+                if ((foundInOpen == 0) && (foundInClose == 0)) {
                     currAdj->setFatherVertex(n);
                     //add the cost to the subCost of currAdj, and push currAdj to the openList.
                     double cost = n->getSubCost() + currAdj->getVertexValue();
@@ -96,7 +115,21 @@ public:
 
             }
         }
-        //return stateVec;
+    }
+
+    State<T>* theSmallestInList(list<State<T>*> openList) {
+        State<T>* curr = openList.front();
+        State<T>* minState = openList.front();
+        double min = curr->getSubCost();
+        auto i = openList.begin();
+        for (; i != openList.end(); i++) {
+            State<T>*& checked = *i;
+            if(checked->getSubCost() < min) {
+                min = checked->getSubCost();
+                minState = checked;
+            }
+        }
+        return minState;
     }
 };
 

@@ -25,12 +25,13 @@
 #include "Matrix.h"
 #include "Solver.h"
 #include "FileCacheManager.h"
+#include "ObjectAdapter.h"
 
 extern bool isEndOfRead;
 
 class MyClientHandler: public ClientHandler {
 private:
-    Solver<std::vector<string>, string>* solver;
+    Solver<string, string>* solver;
     CacheManager<string, string>* cacheManager;
 public:
     void handleClient(int socket_fd) override ;
