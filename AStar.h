@@ -30,7 +30,7 @@ public:
     };
 
     vector<State<T>*> search(Searchable<T> *searchable) override {
-        int foundInOpen = 0;
+        int foundInOpen = 0, continueFlag = 0;
         //Initialize the open and closed list
         list<StateBehavior*> openList;
         list<StateBehavior*> closedList;
@@ -43,7 +43,6 @@ public:
 
         //3. while the open list is not empty
         while (!openList.empty()) {
-            int continueFlag = 0;
             // a) find the node with the least f on the open list, call it "q"
             StateBehavior* q = theLeastFNode(openList);
 //            (q->state)->setIsVisited(true);
@@ -57,7 +56,6 @@ public:
             }
             //pop q
             openList.pop_front();
-
             // c) generate q's adj
             vector<State<T>*> adjVec = searchable->getAllPossibleStates(q->state);
             //set their parents to q
@@ -114,6 +112,7 @@ public:
                     return solution;
                 }
 
+                continueFlag = 0;
                 //ii) if a node with the same position as successor is in the OPEN list
                 // which has a lower f than successor, skip this successor
                 auto i = openList.begin();
@@ -121,10 +120,12 @@ public:
                     StateBehavior*& checked = *i;
                     if (checked->state->isEqual(currAdj)) {
                         if (checked->f < currBehavior->f) {
-                            //skip this successor
-                            continue;
+                            continueFlag = 1;
                         }
                     }
+                }
+                if(continueFlag == 1) {
+                    continue;
                 }
 
                 // iii) if a node with the same position as successor is in the CLOSED list which has
@@ -161,6 +162,12 @@ public:
             if(checked->f < min) {
                 min = checked->f;
                 minState = checked;
+            } else if (checked->f == min) {
+                // if the f is the same check by g value
+                if(checked->g < minState->g) {
+                    min = checked->f;
+                    minState = checked;
+                }
             }
         }
         return minState;
