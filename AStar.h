@@ -30,6 +30,7 @@ public:
     };
 
     vector<State<T>*> search(Searchable<T> *searchable) override {
+        int numOfVertex = 0;
         int foundInOpen = 0, continueFlag = 0;
         //Initialize the open and closed list
         list<StateBehavior*> openList;
@@ -104,7 +105,8 @@ public:
                     auto it = solution.begin();
                     it = solution.insert(it, 1, (currBehavior->state));
                     // save the total cost
-                    this->countVisitedVertexes = solution.size();
+                    //this->countVisitedVertexes = solution.size(); this?**************************
+                    this->countVisitedVertexes = numOfVertex;//or this?***************
                     for(int i = 0; i < solution.size(); i++) {
                         State<T>* current = solution.at(i);
                         this->totalCost += (current->getVertexValue());
@@ -135,9 +137,9 @@ public:
                 for (; j != closedList.end(); j++) {
                     StateBehavior*& now = *j;
                     if ((now->state->isEqual(currAdj)) && (now->f < currBehavior->f)) {
-                          //skip this successor
-                          existsInClosedList = 1;
-                          continue;
+                        //skip this successor
+                        existsInClosedList = 1;
+                        continue;
                     }
                 }
                 // otherwise, add the node to the open list.
@@ -148,6 +150,17 @@ public:
             }
             //e) push q on the closed list
             (q->state)->setIsVisited(true);
+            int checkExist = 0;
+            auto j = closedList.begin();
+            for (; j != closedList.end(); j++) {
+                StateBehavior*& now = *j;
+                if ((now->state)->isEqual(q->state)) {
+                    checkExist = 1;
+                }
+            }
+            if(checkExist == 0) {
+                numOfVertex++;
+            }
             closedList.push_back(q);
         }
     }

@@ -23,8 +23,7 @@ public:
         State<T>* currState = searchable->getInitialState();
         // marked as visited
         currState->setIsVisited(true);
-        //insert the first vertex     check if lines 22,23 are actually needed!!!!!!!!!!!!!!*****************
-        stateVec.push_back(currState);
+
         //while we didn't find the goal index
         while(!searchable->isGoalState(currState)) {
             //get adj
@@ -34,6 +33,9 @@ public:
                 State<T>*& curr = *i;
                 if (!curr->getIsVisited()) {
                     curr->setIsVisited(true);
+                    if(curr->getFatherVertex() == nullptr) {
+                        curr->setFatherVertex(currState);
+                    }
                     dfsStack.push(curr);
                 }
             }
@@ -41,15 +43,26 @@ public:
             if(!dfsStack.empty()) {
                 currState = dfsStack.top();
                 dfsStack.pop();
-                stateVec.push_back(currState);
             }
         }
-        this->countVisitedVertexes = stateVec.size();
-        for(int i = 0; i < stateVec.size(); i++) {
-            State<T>* current = stateVec.at(i);
-            this->totalCost += (current->getVertexValue());
+        //get all the vertices we visited
+        while (currState->getFatherVertex() != nullptr) {
+            stateVec.push_back(currState);
+            this->totalCost += currState->getVertexValue();
+            currState = currState->getFatherVertex();
         }
-        return stateVec;
+        stateVec.push_back(currState);
+        this->totalCost += currState->getVertexValue();
+        //reverse the vertices
+        vector<State<T>*> traceBack;
+        auto i = stateVec.rbegin();
+        for (; i != stateVec.rend(); i++) {
+            State<T>*& curr = *i;
+            traceBack.push_back((*i));
+        }
+        //count the amount of vertices we visited to the goal
+        this->countVisitedVertexes = traceBack.size();
+        return traceBack;
     }
 };
 

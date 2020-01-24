@@ -11,14 +11,18 @@ MyClientHandler::MyClientHandler() {
 }
 
 void MyClientHandler::handleClient(int socket_fd) {
-    int index, startFlag = 0;
+    int index, val_read;
     vector<string> matrixVec;
     //reading from client as long as the parser function didn't end its' work
     while (!isEndOfRead) {
         index = 0;
         char buffer[1] = {0};
         char totalBuffer[1024] = {0};
-        int val_read = read(socket_fd, buffer, 1);
+        val_read = read(socket_fd, buffer, 1);
+        if (val_read < 0) {
+            perror("failed reading. :(");
+            exit(123);
+        }
         while (buffer[0] != '\n') {
             totalBuffer[index] = buffer[0];
             index++;

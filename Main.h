@@ -5,16 +5,15 @@
 #ifndef EVEN2_MAIN_H
 #define EVEN2_MAIN_H
 
-#include "FileCacheManager.h"
-#include "MySerialServer.h"
-#include "MyTestClientHandler.h"
+#include "MyParallelServer.h"
+#include "MyClientHandler.h"
 
 namespace boot {
     class Main {
     public:
         int main(int port) {
-            ClientHandler* clientHandler = new MyTestClientHandler;
-            server_side::Server* server = new MySerialServer;
+            ClientHandler* clientHandler = new MyClientHandler;
+            server_side::Server* server = new MyParallelServer;
             server->open(port, clientHandler);
             return 0;
         }

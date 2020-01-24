@@ -24,6 +24,7 @@ public:
     }
 
     vector<State<T> *> search(Searchable<T> *searchable) override {
+        int numOfVertex = 0;
         vector<State<T>*> stateVec; //traceBack will "remember" our way back with our father vertices.
         unordered_set<State<T>*> closed;
         int foundInOpen, foundInClose;
@@ -43,6 +44,7 @@ public:
                 checkIfQInFront = openList.front();
             }
             openList.pop_front();
+            numOfVertex++;
             //Add the popped n to the closed set
             closed.insert(n);
 
@@ -60,7 +62,8 @@ public:
                     State<T>*& curr = *i;
                     traceBack.push_back((*i));
                 }
-                this->countVisitedVertexes = traceBack.size();
+                //this->countVisitedVertexes = traceBack.size();
+                this->countVisitedVertexes = numOfVertex;
                 return traceBack;
             }
 

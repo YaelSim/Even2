@@ -21,7 +21,6 @@
 #include "Server.h"
 #include <iostream>
 
-extern bool isThreadDone;
 extern bool doneAcceptingClients;
 using namespace std;
 

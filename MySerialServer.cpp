@@ -3,7 +3,6 @@
 //
 
 #include "MySerialServer.h"
-#include "MyParallelServer.h"
 
 bool doneAcceptingClients = false;
 
@@ -25,7 +24,6 @@ void MySerialServer::stop() {
 void openServer(int port, ClientHandler* clientHandler) {
     int timeout_in_seconds = 120, option = 1, clientSocket, addrlen;
     struct sockaddr_in sockAddress;
-    //socklen_t addrlen = sizeof(sockaddr_in);
     //Creation of socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
@@ -59,7 +57,7 @@ void openServer(int port, ClientHandler* clientHandler) {
         if (clientSocket < 0) {
             //Did a timeout happen?
             if (errno == EWOULDBLOCK) {
-                cout<<"timeout"<<endl;
+                cout << "timeout" << endl;
                 doneAcceptingClients = true;
                 continue;
             } else {
@@ -68,7 +66,6 @@ void openServer(int port, ClientHandler* clientHandler) {
         }
         clientHandler->handleClient(clientSocket);
         close(clientSocket);
-
     }
     close(socketfd);
 }
