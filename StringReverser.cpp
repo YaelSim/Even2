@@ -18,3 +18,7 @@ string StringReverser::getNameOfCurrAlg() {
     return "StringReverser";
 }
 
+void StringReverser::setSearcher(Searcher<string> *alg) {
+
+}
+

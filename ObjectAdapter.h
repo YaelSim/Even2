@@ -16,9 +16,8 @@ private:
 public:
     ObjectAdapter() = default;
 
-    void setSearcher(Searcher<Problem>* alg) {
+    void setSearcher(Searcher<Problem>* alg) override {
         this->searcher = alg;
-
     }
 
     string getNameOfCurrAlg() override {

@@ -26,6 +26,7 @@
 #include "Solver.h"
 #include "FileCacheManager.h"
 #include "ObjectAdapter.h"
+#include "AStar.h" //$$$$$$$$$$$$$$$$
 
 extern bool isEndOfRead;
 

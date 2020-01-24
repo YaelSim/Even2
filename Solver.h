@@ -6,6 +6,8 @@
 #define EVEN2_SOLVER_H
 
 #include <string>
+#include "Searcher.h"
+
 using namespace std;
 
 template <class Problem, class Solution>
@@ -14,6 +16,7 @@ public:
     Solver() = default;
     virtual Solution solve(Problem problem) = 0;
     virtual string getNameOfCurrAlg() = 0;
+    virtual void setSearcher(Searcher<Problem>* alg) = 0;
 };
 
 #endif //EVEN2_SOLVER_H

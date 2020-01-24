@@ -94,8 +94,9 @@ bool isClosed(int sock) {
     FD_SET(sock, &rfd);
     timeval tv = { 0 };
     select(sock + 1, &rfd, 0, 0, &tv);
-    if (!FD_ISSET(sock, &rfd))
+    if (!FD_ISSET(sock, &rfd)) {
         return false;
+    }
     int n = 0;
     ioctl(sock, FIONREAD, &n);
     return n == 0;
@@ -117,7 +118,6 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
     if (doneAcceptingClient) {
         this->stop();
     }*/
-
 
     bool isItFirstClient = true;
     int option = 1, clientSocket, addrlen, timeout_in_seconds = 120;
@@ -185,7 +185,8 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
         chThread.detach();
 
         //clientHandler->handleClient(clientSocket);
-        close(clientSocket);
+        cout << "about to close!" << endl;
+        //close(clientSocket);
     }
     close(socketfd);
 }

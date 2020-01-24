@@ -8,6 +8,8 @@
 MyClientHandler::MyClientHandler() {
     this->cacheManager = new FileCacheManager();
     this->solver = new ObjectAdapter<string, string>();
+    Searcher<string>* s = new AStar<string>();
+    this->solver->setSearcher(s);
 }
 
 void MyClientHandler::handleClient(int socket_fd) {
