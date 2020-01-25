@@ -8,7 +8,7 @@ Hello readers!
 ## General Description
 
 The Goal - Creating a server that will handle multiple clients and will solve different problems. This shall be achieved
-using the SOLID principles, and by implementing serveral [Design Patterns](https://en.wikipedia.org/wiki/Software_design_pattern).
+using the SOLID principles, by implementing serveral [Design Patterns](https://en.wikipedia.org/wiki/Software_design_pattern).
 
 The project is based on several main components:
 1. Deep understanding of programming in a multi-threaded environment.
