@@ -86,7 +86,7 @@ public:
             } else {
                 output += "(";
                 output += to_string(currCost);
-                output += "}\r\n";
+                output += ")}\r\n";
             }
         }
         return output;

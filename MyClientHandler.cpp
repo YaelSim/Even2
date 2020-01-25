@@ -8,9 +8,7 @@
 MyClientHandler::MyClientHandler() {
     this->cacheManager = new FileCacheManager();
     this->solver = new ObjectAdapter<string, string>();
-    //Searcher<string>* s = new AStar<string>();
-    Searcher<string>* s = new BestFirstSearch<string>();
-    //Searcher<string>* s = new BFS<string>();
+    Searcher<string>* s = new AStar<string>();
     this->solver->setSearcher(s);
 }
 

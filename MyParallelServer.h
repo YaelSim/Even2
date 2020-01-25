@@ -5,6 +5,7 @@
 #ifndef EVEN2_MYPARALLELSERVER_H
 #define EVEN2_MYPARALLELSERVER_H
 
+#include "MyClientHandler.h"
 #include <thread>
 #include <cstdio>
 #include <cstdlib>
@@ -28,17 +29,15 @@
 #include <sys/ioctl.h>
 
 using namespace std;
-extern queue<thread> threadsQueue;
-extern bool doneAcceptingClient;
-extern mutex fileMutex;
-extern mutex mapMutex; //we need 2 mutexes- one for file handling, one for updating our map.
 
 struct clHandlers {
     int socketfd;
     ClientHandler* ch;
 };
 
-void* callClientHandler(void* handlers);
+extern bool doneAcceptingClient;
+
+void callClientHandler(void* argument);
 bool isClosed(int sock);
 
 class MyParallelServer: public server_side::Server {

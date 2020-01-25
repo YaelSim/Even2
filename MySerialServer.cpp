@@ -50,6 +50,7 @@ void openServer(int port, ClientHandler* clientHandler) {
         //Defining a time out
         struct timeval tv;
         tv.tv_sec = timeout_in_seconds;
+        tv.tv_usec = 0;
         setsockopt(socketfd, SOL_SOCKET, SO_RCVTIMEO, (const char*) &tv, sizeof(tv));
 
         //Accepting a client.

@@ -3,16 +3,13 @@
 //
 
 #include "MyParallelServer.h"
-#include "MyClientHandler.h"
 
 bool doneAcceptingClient = false;
 
-void* callClientHandler(void* argument) {
-    clHandlers *handler = (clHandlers*) argument;
+void callClientHandler(void* argument) {
+    auto *handler = (clHandlers*) argument;
     handler->ch->handleClient(handler->socketfd);
     close(handler->socketfd);
-    cout << "finished handling" << endl;
-    //return nullptr;
     delete handler;
 }
 
@@ -64,6 +61,7 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
         //Defining a time out
         struct timeval tv;
         tv.tv_sec = timeout_in_seconds;
+        tv.tv_usec = 0;
         setsockopt(socketfd, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof(tv));
 
         //Accepting a client.
@@ -79,9 +77,8 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
             }
         }
         //initialize a new struct of handlers with the given arguments.
-        clHandlers *handler = new clHandlers();
+        auto *handler = new clHandlers();
         handler->socketfd = clientSocket;
-        //handler->ch = clientHandler;
         handler->ch = new MyClientHandler();
 
         std::thread chThread(callClientHandler, handler);
