@@ -1,5 +1,6 @@
 # Even2
-Linoy and Yael - Second part of project - EVEN2
+Linoy and Yael - Second part of project - EVEN2.
+
 Submission Date: 01/30/2020
 
 Hello readers!
