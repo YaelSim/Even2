@@ -34,13 +34,11 @@ extern mutex fileMutex;
 extern mutex mapMutex; //we need 2 mutexes- one for file handling, one for updating our map.
 
 struct clHandlers {
-    bool isThreadDone;
     int socketfd;
     ClientHandler* ch;
 };
 
-void openParallelServer(int port, ClientHandler* clientHandler);
-void callClientHandler(clHandlers* handlers);
+void* callClientHandler(void* handlers);
 bool isClosed(int sock);
 
 class MyParallelServer: public server_side::Server {

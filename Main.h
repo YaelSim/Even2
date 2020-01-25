@@ -7,6 +7,7 @@
 
 #include "MyParallelServer.h"
 #include "MyClientHandler.h"
+#include "MySerialServer.h"
 
 namespace boot {
     class Main {
@@ -14,6 +15,7 @@ namespace boot {
         int main(int port) {
             ClientHandler* clientHandler = new MyClientHandler;
             server_side::Server* server = new MyParallelServer;
+            //server_side::Server* server = new MySerialServer;
             server->open(port, clientHandler);
             return 0;
         }

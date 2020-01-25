@@ -8,7 +8,9 @@
 MyClientHandler::MyClientHandler() {
     this->cacheManager = new FileCacheManager();
     this->solver = new ObjectAdapter<string, string>();
-    Searcher<string>* s = new AStar<string>();
+    //Searcher<string>* s = new AStar<string>();
+    //Searcher<string>* s = new BestFirstSearch<string>();
+    Searcher<string>* s = new BFS<string>();
     this->solver->setSearcher(s);
 }
 
@@ -22,7 +24,6 @@ void MyClientHandler::handleClient(int socket_fd) {
         char totalBuffer[1024] = {0};
         val_read = read(socket_fd, buffer, 1);
         if (val_read < 0) {
-            perror("failed reading. :(");
             exit(123);
         }
         while (buffer[0] != '\n') {
@@ -70,6 +71,12 @@ void MyClientHandler::handleClient(int socket_fd) {
             }
             solution = this->solver->solve(dilimProblem);
             this->cacheManager->saveSolution(problem, solution);
+        }
+        solution += "\r\n";
+        const char* solutionToClient = solution.c_str();
+        int is_sent = send(socket_fd, solutionToClient, strlen(solutionToClient), 0);
+        if (is_sent < 0) {
+            cout<<"Failed Sending Solution To Client!"<<endl;
         }
         //BEFORE SENDING THE SOLUTION TO THE CLIENT, DONT FORGET TO ADD \r\n
     }

@@ -27,6 +27,8 @@
 #include "FileCacheManager.h"
 #include "ObjectAdapter.h"
 #include "AStar.h" //$$$$$$$$$$$$$$$$
+#include "BestFirstSearch.h"
+#include "BFS.h"
 
 extern bool isEndOfRead;
 

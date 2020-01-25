@@ -18,51 +18,55 @@ public:
     }
 
     vector<State<T>*> search(Searchable<T>* searchable) override {
+        int numOfVertex = 0;
         vector<State<T>*> stateVec, adjVec;
         stack<State<T>*> dfsStack;
         State<T>* currState = searchable->getInitialState();
-        // marked as visited
-        currState->setIsVisited(true);
+        dfsStack.push(currState);
 
-        //while we didn't find the goal index
-        while(!searchable->isGoalState(currState)) {
+        while(!dfsStack.empty()) {
+            //get the first node in the stack
+            State<T>* node = dfsStack.top();
+            numOfVertex++;
+            //pop the top in the stack
+            dfsStack.pop();
+            // mark the node as visited
+            if(!(node->getIsVisited())) {
+                node->setIsVisited(true);
+            }
+
+            //if the node is the goal
+            if(node->isEqual(searchable->getGoalState())) {
+                while (!(node->getFatherVertex())->isEqual(searchable->getInitialState())) {
+                    stateVec.push_back(node);
+                    node = node->getFatherVertex();
+                }
+                stateVec.push_back(node);
+                this->totalCost = stateVec.size();
+                //reverse the vertices
+                vector<State<T>*> traceBack;
+                auto i = stateVec.rbegin();
+                for (; i != stateVec.rend(); i++) {
+                    State<T>*& curr = *i;
+                    traceBack.push_back((*i));
+                }
+                //count the amount of vertices we visited to the goal
+                //this->countVisitedVertexes = numOfVertex;
+                this->countVisitedVertexes = numOfVertex;
+                return traceBack;
+            }
             //get adj
-            adjVec = searchable->getAllPossibleStates(currState);
-            auto i = adjVec.rbegin();
-            for (; i != adjVec.rend(); i++) {
-                State<T>*& curr = *i;
-                if (!curr->getIsVisited()) {
-                    curr->setIsVisited(true);
-                    if(curr->getFatherVertex() == nullptr) {
-                        curr->setFatherVertex(currState);
-                    }
-                    dfsStack.push(curr);
+            adjVec = searchable->getAllPossibleStates(node);
+            for (State<T>* currAdj : adjVec) {
+                //set and push to stack if not visited
+                if (!(currAdj->getIsVisited())) {
+                    currAdj->setIsVisited(true);
+                    currAdj->setFatherVertex(node);;
+                    dfsStack.push(currAdj);
                 }
             }
-            //pop the top in the stack
-            if(!dfsStack.empty()) {
-                currState = dfsStack.top();
-                dfsStack.pop();
-            }
+
         }
-        //get all the vertices we visited
-        while (currState->getFatherVertex() != nullptr) {
-            stateVec.push_back(currState);
-            this->totalCost += currState->getVertexValue();
-            currState = currState->getFatherVertex();
-        }
-        stateVec.push_back(currState);
-        this->totalCost += currState->getVertexValue();
-        //reverse the vertices
-        vector<State<T>*> traceBack;
-        auto i = stateVec.rbegin();
-        for (; i != stateVec.rend(); i++) {
-            State<T>*& curr = *i;
-            traceBack.push_back((*i));
-        }
-        //count the amount of vertices we visited to the goal
-        this->countVisitedVertexes = traceBack.size();
-        return traceBack;
     }
 };
 

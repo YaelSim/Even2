@@ -46,7 +46,7 @@ public:
         while (!openList.empty()) {
             // a) find the node with the least f on the open list, call it "q"
             StateBehavior* q = theLeastFNode(openList);
-//            (q->state)->setIsVisited(true);
+            (q->state)->setIsVisited(true);
 
             //b) pop q off the open list
             StateBehavior* checkIfQInFront = openList.front();
@@ -55,6 +55,7 @@ public:
                 openList.pop_front();
                 checkIfQInFront = openList.front();
             }
+
             //pop q
             openList.pop_front();
             // c) generate q's adj
@@ -82,7 +83,7 @@ public:
                 currBehavior->f = currBehavior->g + currBehavior->h;
 
                 // i) if successor is the goal, stop search
-                if (searchable->isGoalState(currAdj)) {
+                if (currAdj->isEqual(searchable->getGoalState())) {
                     //successor.g = q.g + distance between successor and q
                     currBehavior->g = ((q->g) + (currAdj->getVertexValue()));
                     // successor.h = distance from goal to successor
@@ -121,7 +122,7 @@ public:
                 for (; i != openList.end(); i++) {
                     StateBehavior*& checked = *i;
                     if (checked->state->isEqual(currAdj)) {
-                        if (checked->f < currBehavior->f) {
+                        if (checked->f <= currBehavior->f) {
                             continueFlag = 1;
                         }
                     }
@@ -136,7 +137,7 @@ public:
                 auto j = closedList.begin();
                 for (; j != closedList.end(); j++) {
                     StateBehavior*& now = *j;
-                    if ((now->state->isEqual(currAdj)) && (now->f < currBehavior->f)) {
+                    if (((now->state)->isEqual(currAdj)) && (now->f <= currBehavior->f)) {
                         //skip this successor
                         existsInClosedList = 1;
                         continue;
@@ -149,7 +150,6 @@ public:
 
             }
             //e) push q on the closed list
-            (q->state)->setIsVisited(true);
             int checkExist = 0;
             auto j = closedList.begin();
             for (; j != closedList.end(); j++) {
