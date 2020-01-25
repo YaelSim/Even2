@@ -30,8 +30,6 @@
 #include "BestFirstSearch.h"
 #include "BFS.h"
 
-extern bool isEndOfRead;
-
 class MyClientHandler: public ClientHandler {
 private:
     Solver<string, string>* solver;

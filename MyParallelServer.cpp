@@ -9,15 +9,11 @@ bool doneAcceptingClient = false;
 
 void* callClientHandler(void* argument) {
     clHandlers *handler = (clHandlers*) argument;
-    /*if (!isClosed(handler->socketfd)) {
-        handler->ch->handleClient(handler->socketfd);
-        close(handler->socketfd);
-        cout << "finished handling" << endl;
-    }*/
     handler->ch->handleClient(handler->socketfd);
     close(handler->socketfd);
     cout << "finished handling" << endl;
-    return nullptr;
+    //return nullptr;
+    delete handler;
 }
 
 //this static method receives a socketfd and returns true if the socket is closed.
@@ -59,7 +55,7 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
      * to our _threadsQueue. We will handle those clients one by one, but we can accept more clients while
      * we are still handling the previous client.
      */
-    if (listen(socketfd, 1) < 0) {
+    if (listen(socketfd, 10) < 0) {
         exit(-3);
     }
     addrlen = sizeof(sockAddress);
@@ -74,7 +70,7 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
         clientSocket = accept(socketfd, (struct sockaddr *) &sockAddress, (socklen_t *) &addrlen);
         if (clientSocket < 0) {
             //Did a timeout happen?
-            if (errno == EWOULDBLOCK) {
+            if (errno == EWOULDBLOCK || errno == EAGAIN) {
                 cout << "timeout" << endl;
                 doneAcceptingClient = true;
                 continue;
