@@ -66,6 +66,12 @@ to this specific problem already exists in our filesystem. If so, we don't have 
 The already-cached-saved solution will be returned to the client (using MyClientHandler).
 
 
+## Solver, BFS, DFS, AStar, BestFirstSearch
+The solver interface receives a problem and returns a matching solution. The inner implementation of the solver depends on one of the mentioned above algorithms. Each of those algorithms are implemented using templates.
+One can conclude that the Astar algorithm time complexity is the best.
+
+
+
 
 Thanks for reading!
 Yael and Linoy :)
