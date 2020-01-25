@@ -73,7 +73,16 @@ One can conclude that the Astar algorithm time complexity is the best.
 
 
 
+
+
+
+
+
+
 Thanks for reading!
+
+
+
 Yael and Linoy :)
 
 
