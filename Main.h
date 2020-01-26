@@ -14,7 +14,7 @@ namespace boot {
     public:
         int main(int port) {
             ClientHandler* clientHandler = new MyClientHandler;
-            server_side::Server* server = new MySerialServer;
+            server_side::Server* server = new MyParallelServer;
             server->open(port, clientHandler);
             return 0;
         }
