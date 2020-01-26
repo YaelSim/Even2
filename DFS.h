@@ -39,10 +39,11 @@ public:
             if(node->isEqual(searchable->getGoalState())) {
                 while (!(node->getFatherVertex())->isEqual(searchable->getInitialState())) {
                     stateVec.push_back(node);
+                    this->totalCost += node->getVertexValue();
                     node = node->getFatherVertex();
                 }
                 stateVec.push_back(node);
-                this->totalCost = stateVec.size();
+                this->totalCost += node->getVertexValue();
                 //reverse the vertices
                 vector<State<T>*> traceBack;
                 auto i = stateVec.rbegin();
