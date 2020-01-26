@@ -1,5 +1,5 @@
 //
-// Created by linoy on 23/01/2020.
+// Created by linoy and yael on 23/01/2020.
 //
 
 #ifndef EVEN2_MYPARALLELSERVER_H
@@ -21,8 +21,6 @@
 #include <sys/socket.h>
 #include "Server.h"
 #include <iostream>
-#include <queue>
-#include <mutex>
 #include <ctime>
 #include <sys/types.h>
 #include <unistd.h>
@@ -30,6 +28,7 @@
 
 using namespace std;
 
+//A struct that will order a client_socket and its proper clientHandler.
 struct clHandlers {
     int socketfd;
     ClientHandler* ch;

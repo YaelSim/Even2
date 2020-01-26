@@ -1,11 +1,13 @@
 //
-// Created by linoy on 23/01/2020.
+// Created by linoy and yael on 23/01/2020.
 //
 
 #include "MyParallelServer.h"
 
 bool doneAcceptingClient = false;
 
+//This static method receives a struct and handles the client (in a different thread).
+//This method is called when a different thread is created.
 void callClientHandler(void* argument) {
     auto *handler = (clHandlers*) argument;
     handler->ch->handleClient(handler->socketfd);
@@ -28,6 +30,8 @@ bool isClosed(int sock) {
     return n == 0;
 }
 
+//This is the main method of MyParallelServer. we're given a port and a clientHandler and we create a socket (using the
+//given port) listen to possible clients. Each client accepted is handled (using clientHandler) in a different thread.
 void MyParallelServer::open(int port, ClientHandler *clientHandler) {
     int option = 1, clientSocket, addrlen, timeout_in_seconds = 120;
     struct sockaddr_in sockAddress;
@@ -69,7 +73,7 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
         if (clientSocket < 0) {
             //Did a timeout happen?
             if (errno == EWOULDBLOCK || errno == EAGAIN) {
-                cout << "timeout" << endl;
+                cout << "timeout!" << endl;
                 doneAcceptingClient = true;
                 continue;
             } else {
@@ -83,7 +87,6 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
 
         std::thread chThread(callClientHandler, handler);
         chThread.detach();
-        cout << "datached!" << endl;
     }
     if (doneAcceptingClient) {
         this->stop();
@@ -91,7 +94,7 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
     close(socketfd);
 }
 
+//This method prevents the MyParallelServer from running.
 void MyParallelServer::stop() {
-    cout << "stopping!" << endl;
     doneAcceptingClient = true;
 }

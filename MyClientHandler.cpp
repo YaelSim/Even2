@@ -2,7 +2,6 @@
 // Created by yael and linoy on 16/01/2020.
 //
 
-
 #include "MyClientHandler.h"
 
 MyClientHandler::MyClientHandler() {
@@ -12,6 +11,7 @@ MyClientHandler::MyClientHandler() {
     this->solver->setSearcher(s);
 }
 
+//Main function of MyClientHandler. Receive a socket and handle the client according to the given problem.
 void MyClientHandler::handleClient(int socket_fd) {
     int index;
     vector<string> matrixVec;
@@ -26,7 +26,7 @@ void MyClientHandler::handleClient(int socket_fd) {
             index++;
             val_read = read(socket_fd, buffer, 1);
         }
-        //check if the total line (receieved from totalBuffer) contains "end"
+        //check if the total line (received from totalBuffer) contains "end"
         string bufferAsString;
         for(int i = 0; i < 1024; i++) {
             if (totalBuffer[i] != '\000') {

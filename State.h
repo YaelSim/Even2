@@ -1,5 +1,5 @@
 //
-// Created by yael on 14/01/2020.
+// Created by yael and linoy on 14/01/2020.
 //
 
 #ifndef EVEN2_STATE_H
@@ -18,6 +18,7 @@ private:
     int xPosition;
     int yPosition;
 public:
+    //Constructor of a state according to T (type) of index, and the current cell's value.
     State(T indexOfVertex, double valOfVertex) {
         this->vertexIndex =  indexOfVertex;
         this->vertexValue = valOfVertex;
@@ -60,6 +61,7 @@ public:
         return this->isVisited;
     }
 
+    //This method returns true only if a given state EQUALS to this state.
     bool isEqual(State<T>* state) {
         if (state->getVertexValue() == this->getVertexValue()) {
             if (state->getIsVisited() == this->getIsVisited()) {
@@ -72,14 +74,10 @@ public:
     }
 
     int getX() {
-        //T vertex = this->vertexIndex;
-        //this->xPosition = stoi(vertex.substr(0, vertex.find(',')));
         return this->xPosition;
     }
 
     int getY() {
-        //T vertex = this->vertexIndex;
-        //this->yPosition = stoi(vertex.substr(vertex.find(',') + 1));
         return this->yPosition;
     }
 

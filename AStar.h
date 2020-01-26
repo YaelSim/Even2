@@ -1,5 +1,5 @@
 //
-// Created by yael on 17/01/2020.
+// Created by yael and linoy on 17/01/2020.
 //
 
 #ifndef EVEN2_ASTAR_H
@@ -106,8 +106,7 @@ public:
                     auto it = solution.begin();
                     it = solution.insert(it, 1, (currBehavior->state));
                     // save the total cost
-                    //this->countVisitedVertexes = solution.size(); this?**************************
-                    this->countVisitedVertexes = numOfVertex;//or this?***************
+                    this->countVisitedVertexes = numOfVertex;
                     for(int i = 0; i < solution.size(); i++) {
                         State<T>* current = solution.at(i);
                         this->totalCost += (current->getVertexValue());

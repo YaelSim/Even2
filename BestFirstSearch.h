@@ -1,5 +1,5 @@
 //
-// Created by yael on 17/01/2020.
+// Created by yael and linoy on 17/01/2020.
 //
 
 #ifndef EVEN2_BESTFIRSTSEARCH_H
@@ -17,7 +17,6 @@ template <class T>
 class BestFirstSearch: public Searcher<T> {
 public:
     BestFirstSearch() = default;
-
 
     string getNameOfSearcher() override {
         return "BestFirstSearch";
@@ -62,7 +61,6 @@ public:
                     State<T>*& curr = *i;
                     traceBack.push_back((*i));
                 }
-                //this->countVisitedVertexes = traceBack.size();
                 this->countVisitedVertexes = numOfVertex;
                 return traceBack;
             }
@@ -115,7 +113,6 @@ public:
                         }
                     }
                 }
-
             }
         }
     }

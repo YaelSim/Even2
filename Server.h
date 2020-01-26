@@ -1,11 +1,10 @@
 //
-// Created by linoy on 12/01/2020.
+// Created by linoy and yael on 12/01/2020.
 //
 
 #ifndef EVEN2_SERVER_H
 #define EVEN2_SERVER_H
 
-#include <pthread.h>
 #include "ClientHandler.h"
 
 namespace server_side {

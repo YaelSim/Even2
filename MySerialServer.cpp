@@ -1,11 +1,13 @@
 //
-// Created by linoy on 12/01/2020.
+// Created by linoy and yael on 12/01/2020.
 //
 
 #include "MySerialServer.h"
 
 bool doneAcceptingClients = false;
 
+//This is the main method of MySerialServer. It receives a port to listen to and clientHandler that will manage
+//the communication (sending the solution / getting another problem) with the client.
 void MySerialServer::open(int port, ClientHandler *clientHandler) {
     std::thread openServerThread(openServer, port, clientHandler);
     openServerThread.detach();
@@ -17,10 +19,12 @@ void MySerialServer::open(int port, ClientHandler *clientHandler) {
     }
 }
 
+//This method prevents MySerialServer from running.
 void MySerialServer::stop() {
     doneAcceptingClients = true;
 }
 
+//This static method is called every time a new thread is created
 void openServer(int port, ClientHandler* clientHandler) {
     int timeout_in_seconds = 120, option = 1, clientSocket, addrlen;
     struct sockaddr_in sockAddress;
@@ -56,7 +60,7 @@ void openServer(int port, ClientHandler* clientHandler) {
         //Accepting a client.
         clientSocket = accept(socketfd, (struct sockaddr *) &sockAddress, (socklen_t*) &addrlen);
         if (clientSocket < 0) {
-            //Did a timeout happen?
+            //Did a timeout happen? If so, stop the server from running.
             if (errno == EWOULDBLOCK) {
                 cout << "timeout" << endl;
                 doneAcceptingClients = true;

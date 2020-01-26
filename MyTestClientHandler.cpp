@@ -1,17 +1,18 @@
 //
-// Created by linoy on 12/01/2020.
+// Created by linoy and yael on 12/01/2020.
 //
 
 #include "MyTestClientHandler.h"
 
 bool isEndOfRead = false;
-std::mutex progMutex;
 
+//Constructor
 MyTestClientHandler::MyTestClientHandler() {
     this->cacheManager = new FileCacheManager();
     this->solver = new StringReverser();
 }
 
+//This is the main method of MyTestClientHandler.
 void MyTestClientHandler::handleClient(int socket_fd) {
     int index;
     //reading from client as long as the parser function didn't end its' work
@@ -36,7 +37,7 @@ void MyTestClientHandler::handleClient(int socket_fd) {
             isEndOfRead = true;
             continue;
         } else {
-            //CHECK WHERE WE NEED TO PUT MUTEX
+            //Set the current algorithm according to the solver's searcher.
             this->cacheManager->setAlg(this->solver->getNameOfCurrAlg());
             bool isExist = this->cacheManager->doesASolutionExist(problem);
             if(isExist) {
@@ -51,7 +52,6 @@ void MyTestClientHandler::handleClient(int socket_fd) {
             if (is_sent < 0) {
                 cout<<"Failed Sending Solution To Client!"<<endl;
             }
-            //Check what is the issue with the broken pipe.*******************************
         }
     }
     isEndOfRead = false;

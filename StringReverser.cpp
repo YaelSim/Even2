@@ -1,9 +1,10 @@
 //
-// Created by linoy on 12/01/2020.
+// Created by linoy and yael on 12/01/2020.
 //
 
 #include "StringReverser.h"
 
+//This method gets a string and reverses it.
 string StringReverser::solve(string problem) {
     string tempProblem = problem;
     int n = tempProblem.length();

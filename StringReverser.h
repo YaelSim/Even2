@@ -1,5 +1,5 @@
 //
-// Created by linoy on 12/01/2020.
+// Created by linoy and yael on 12/01/2020.
 //
 
 #ifndef EVEN2_STRINGREVERSER_H
@@ -13,7 +13,6 @@ public:
     string solve(string problem) override;
     string getNameOfCurrAlg() override;
     void setSearcher(Searcher<string>* alg) override ;
-
 };
 
 #endif //EVEN2_STRINGREVERSER_H

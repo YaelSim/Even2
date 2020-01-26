@@ -1,5 +1,5 @@
 //
-// Created by yael on 22/01/2020.
+// Created by yael and linoy on 22/01/2020.
 //
 
 #ifndef EVEN2_OBJECTADAPTER_H
@@ -24,6 +24,7 @@ public:
         return this->searcher->getNameOfSearcher();
     }
 
+    //This method gets a problem and returns a solution accordingly (using matching templates).
     Solution solve(Problem problem) override {
         //Convert the dilimProblem (string with ';') to a vector
         vector<string> matrixVec;

@@ -1,14 +1,11 @@
 //
-// Created by linoy on 12/01/2020.
+// Created by linoy and yael on 12/01/2020.
 //
 
 #ifndef EVEN2_CLIENTHANDLER_H
 #define EVEN2_CLIENTHANDLER_H
 
 #include <regex>
-#include <mutex>
-
-extern std::mutex progMutex;
 
 class ClientHandler {
 public:

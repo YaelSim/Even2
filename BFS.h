@@ -1,5 +1,5 @@
 //
-// Created by yael on 17/01/2020.
+// Created by yael and linoy on 17/01/2020.
 //
 
 #ifndef EVEN2_BFS_H
@@ -50,7 +50,6 @@ public:
                     traceBack.push_back((*i));
                 }
                 //count the amount of vertices we visited to the goal
-                //this->countVisitedVertexes = traceBack.size();
                 this->countVisitedVertexes = numOfVertex;
                 return traceBack;
             }

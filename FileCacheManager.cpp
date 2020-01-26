@@ -1,22 +1,20 @@
 //
-// Created by linoy on 12/01/2020.
+// Created by linoy and yael on 12/01/2020.
 //
 
 #include <iostream>
 #include <utility>
 #include "FileCacheManager.h"
 
-//this method inserts the problem and the solution into the cacheMap
-// and writes it also to the matching file.
+//this method inserts the problem and the solution into the cacheMap and writes it also to the matching file.
 void FileCacheManager::saveSolution(string problem, string solution) {
     //insert to cache map
     this->cacheMap[problem] = solution;
-
     // write to file the new solution
     fstream file;
     file.open(getCurrentFileName(problem), std::ios::app);
     if (!file) {
-        std::cout<<"blah"<<endl;
+        cout<<"error in opening file!"<<endl;
     }
     problem += "\n";
     solution += "\n";
@@ -24,6 +22,7 @@ void FileCacheManager::saveSolution(string problem, string solution) {
     file.close();
 }
 
+//this method returns true if a file of the exact given problem already exists.
 bool FileCacheManager::doesASolutionExist(string problem) {
     //search for it in the cache map
     if (this->cacheMap.find(problem) == this->cacheMap.end()) {
@@ -48,8 +47,8 @@ string FileCacheManager::getSolution(string problem) {
     return solution;
 }
 
+//If the cacheMap is empty, this method is called in order to update its values.
 void FileCacheManager::updateCacheMapFromFiles(string problem) {
-    const char* error = "Failed opening file!";
     ifstream file;
     int flag = 0, gotPair = 0;
     string line, currProblem, currSolution;
@@ -80,6 +79,7 @@ void FileCacheManager::updateCacheMapFromFiles(string problem) {
     }
 }
 
+//This is a hash method - it creates a unique file name according to the current problem + and the current algorithm.
 string FileCacheManager::getCurrentFileName(const string& problem) {
     string finalFileName;
     std::size_t name = std::hash<string>{}(problem);

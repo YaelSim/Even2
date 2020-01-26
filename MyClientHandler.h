@@ -1,5 +1,5 @@
 //
-// Created by yael on 16/01/2020.
+// Created by yael and linoy on 16/01/2020.
 //
 
 #ifndef EVEN2_MYCLIENTHANDLER_H
@@ -26,9 +26,7 @@
 #include "Solver.h"
 #include "FileCacheManager.h"
 #include "ObjectAdapter.h"
-#include "AStar.h" //$$$$$$$$$$$$$$$$
-#include "BestFirstSearch.h"
-#include "BFS.h"
+#include "AStar.h"
 
 class MyClientHandler: public ClientHandler {
 private:

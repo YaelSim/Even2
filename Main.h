@@ -1,5 +1,5 @@
 //
-// Created by linoy on 12/01/2020.
+// Created by linoy and yael on 12/01/2020.
 //
 
 #ifndef EVEN2_MAIN_H
@@ -15,7 +15,6 @@ namespace boot {
         int main(int port) {
             ClientHandler* clientHandler = new MyClientHandler;
             server_side::Server* server = new MyParallelServer;
-            //server_side::Server* server = new MySerialServer;
             server->open(port, clientHandler);
             return 0;
         }

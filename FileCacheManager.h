@@ -1,12 +1,11 @@
 //
-// Created by linoy on 12/01/2020.
+// Created by linoy and yael on 12/01/2020.
 //
 
 #ifndef EVEN2_FILECACHEMANAGER_H
 #define EVEN2_FILECACHEMANAGER_H
 
 #include "CacheManager.h"
-
 
 using namespace std;
 
