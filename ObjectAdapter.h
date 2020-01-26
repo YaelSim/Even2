@@ -51,14 +51,14 @@ public:
      */
     string getSolutionString(vector<State<Problem>*> solutionVec) {
         string output;
-        int currCost = 0;
+        int currCost = 0, prevCost = 0;
         for(int i = 0; (i < (solutionVec.size() - 1)); i++) {
             State<Problem>* currState = solutionVec.at(i);
-            currCost += currState->getVertexValue();
             State<Problem>* nextState = solutionVec.at(i + 1);
             currCost += nextState->getVertexValue();
             //Add '{' first
             if (i == 0) {
+                currCost += currState->getVertexValue();
                 output += "{";
             }
             //Is curr.x - next.x == 0? If so, we took the current step on the Y coordinate (RIGHT/LEFT).
