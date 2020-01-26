@@ -71,6 +71,9 @@ The solver interface receives a problem and returns a matching solution. The inn
 One can conclude that the Astar algorithm time complexity is the best.
 
 
+* We made an empirical experience on 10 matrixes. We have tested each of our implemented search algorithms - DFS, BFS, BestFirstSearch and AStar.
+
+Our final conclusion was that the AStar algorithm has the best performance rates. Furthermore, we've decided to set the main current search algorithm to be AStar.
 
 
 
